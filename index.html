@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>To-Do List</title>
+    <style>
+        .completed {
+            text-decoration: line-through;
+            color: grey;
+        }
+    </style>
+</head>
+<body>
+    <section>
+        <div id="input">
+            <input type="text" id="textInput" placeholder="Digite aqui a tarefa.">
+            <button id="submitButton">Enviar</button>
+        </div>
+        <div id="checkbox-container">
+            <h3>Lista de tarefas</h3>
+        </div>
+    </section>
+
+    <script>
+        function createCheckboxWithLabel(labelText) {
+            // Cria o elemento input do tipo checkbox
+            var checkbox = document.createElement("input");
+            checkbox.type = "checkbox";
+            // Gera um ID único para cada checkbox
+            var uniqueId = "checkbox_" + Date.now();
+            checkbox.id = uniqueId;
+            checkbox.style.marginRight = '0.5em'
+
+            // Cria o elemento label
+            var label = document.createElement("label");
+            label.htmlFor = uniqueId;
+            label.appendChild(document.createTextNode(labelText));
+            label.classList.add("task-label")
+            label.style.margin = "10px"
+
+            // Adiciona o event listener ao checkbox para marcar como concluído
+            checkbox.addEventListener("change", function() {
+                if (checkbox.checked) {
+                    label.classList.add("completed");
+                } else {
+                    label.classList.remove("completed");
+                }
+            });
+
+            // Cria o botão de apagar
+            var deleteButton = document.createElement("button");
+            deleteButton.textContent = "Apagar";
+            deleteButton.classList.add("delete-button")
+            deleteButton.onclick = function() {
+                container.remove();
+            };
+
+            // Cria um contêiner para a tarefa
+        
+            var container = document.createElement("div");
+            container.appendChild(checkbox);
+            container.appendChild(label);
+            container.appendChild(deleteButton);
+            container.style.width = "100%"
+        
+
+            // Adiciona o contêiner de tarefa ao contêiner principal
+            var checkboxContainer = document.getElementById("checkbox-container");
+            checkboxContainer.appendChild(container);
+        }
+
+        // Adiciona um event listener ao botão de enviar
+        var button = document.getElementById("submitButton");
+        button.addEventListener("click", function() {
+            var textInput = document.getElementById("textInput").value;
+            if (textInput) {
+                createCheckboxWithLabel(textInput);
+                // Limpa o campo de entrada
+                document.getElementById("textInput").value = "";
+            }
+        });
+    </script>
+</body>
+</html>
